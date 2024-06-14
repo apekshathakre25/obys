@@ -121,16 +121,31 @@ function cursorAnimation() {
       top: "-15%",
     });
   });
-  videoContainer.addEventListener("click", function () {
-    video.play();
-    video.style.opacity = 1;
 
-    document.querySelector(
-      "#video-cursor"
-    ).innerHTML = `<i class="ri-pause-mini-line"></i>`;
-    gsap.to("#video-cursor", {
-      scale: 0.5,
-    });
+  let flag = 0;
+  videoContainer.addEventListener("click", function () {
+    if (flag == 0) {
+      video.play();
+      video.style.opacity = 1;
+
+      document.querySelector(
+        "#video-cursor"
+      ).innerHTML = `<i class="ri-pause-mini-line"></i>`;
+      gsap.to("#video-cursor", {
+        scale: 0.5,
+      });
+      flag = 1;
+    } else {
+      video.pause();
+      video.style.opacity = 0;
+      document.querySelector(
+        "#video-cursor"
+      ).innerHTML = `<i class="ri-play-mini-line"></i>`;
+      gsap.to("#video-cursor", {
+        scale: 1,
+      });
+      flag = 0;
+    }
   });
 }
 
@@ -176,3 +191,32 @@ loadingAnimation();
 cursorAnimation();
 locomotiveAnimations();
 imageAnimation();
+
+document.addEventListener("mousemove", function (dets) {
+  gsap.to("#flag", {
+    x: dets.x,
+    y: dets.y,
+  });
+});
+
+document.querySelector("#hero3").addEventListener("mouseenter", function () {
+  gsap.to("#flag", {
+    opacity: 1,
+  });
+});
+
+document.querySelector("#hero3").addEventListener("mouseleave", function () {
+  gsap.to("#flag", {
+    opacity: 0,
+  });
+});
+
+function movingAnimation() {
+  const footerH1 = document.querySelector("#footer-h1");
+
+  footerH1.addEventListener("mouseenter", function () {
+    gsap.fromTo("#footer-h1", { opacity: 0 }, { opacity: 1 });
+    $("#footer-h1").textillate({ in: { effect: "fadeIn" } });
+  });
+}
+movingAnimation();
